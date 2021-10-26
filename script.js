@@ -27,3 +27,47 @@ const verifyDigimon = async () => {
   const result = nameList.some((digiName) => digiName.toLowerCase() === getInputValue.toLowerCase());
   return result;
 };
+// reseta a lista 
+const resetDigiContainer = () => {
+  getDigiContainer.innerHTML = '';
+};
+// cria um elemento com o nome de todos os digimons
+const addAllNamesList = async () => {
+  resetDigiContainer();
+  const list = await getAllDigimons();
+  const createUl = document.createElement('ul');
+  createUl.id = 'digiList';
+  getDigiContainer.appendChild(createUl);
+  const getDigiList = document.querySelector('#digiList');
+  list.forEach((element) => {
+    const createLi = document.createElement('li');
+    createLi.innerText = element.name
+    getDigiList.appendChild(createLi);
+  });
+};
+// função que pega o digimon escolhido e adiciona no container
+const addDigimon = async () => {
+  resetDigiContainer();
+  const verify = await verifyDigimon();
+  if (verify === false) {
+    window.alert("Invalid Name");
+  } else {
+    const getInputValue = document.querySelector('#digiInput').value;
+    const digimon = await getDigimonByName(getInputValue.toLowerCase());
+    const createName = document.createElement('h3');
+    createName.innerText = digimon.name;
+    const createLevel = document.createElement('h3');
+    createLevel.innerText = digimon.level;
+    const createImg = document.createElement('img');
+    createImg.src = digimon.img;
+    getDigiContainer.appendChild(createName);
+    getDigiContainer.appendChild(createLevel);
+    getDigiContainer.appendChild(createImg);
+  }
+};
+
+window.onload = () => {
+  getFindButton.addEventListener('click', addDigimon);
+  getALlDigimonButton.addEventListener('click', addAllNamesList);
+  getResetButton.addEventListener('click', resetDigiContainer);
+};
