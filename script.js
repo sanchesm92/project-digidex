@@ -64,6 +64,7 @@ const addDigimon = async () => {
     getDigiContainer.appendChild(createLevel);
     getDigiContainer.appendChild(createImg);
   }
+  document.querySelector('#digiInput').value = '';
 };
 
 window.onload = () => {
